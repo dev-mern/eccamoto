@@ -3,10 +3,11 @@ import SurveyModel from "../models_schemas/SurveyModel";
 
 export const updateSurveySlipService = async(surveySlip={}) =>{
     try {
-        const {status,trans_id,user_id,subid_1,subid_2,amount_local,amount_usd,offer_id,hash,type,ip_click} = surveySlip;
-        const setDoc = {status,trans_id,user_id,subid_1,subid_2,offer_id,hash,type,ip_click};
+        const {status,trans_id,user_id,subid_1,subid_2,amount_local,amount_usd,offer_id,secure_hash,type,ip_click} = surveySlip;
+        const setDoc = {status,trans_id,user_id,subid_1,subid_2,offer_id,secure_hash,type,ip_click};
         const incDoc = {amount_local,amount_usd };
-        
+        console.log(amount_local);
+        console.log(Number(amount_local));
         await db.connect();
         const slip = await SurveyModel.updateOne(
             {
@@ -15,7 +16,10 @@ export const updateSurveySlipService = async(surveySlip={}) =>{
             },
             {
                 $set: setDoc,
-                $inc: incDoc
+                $inc: {
+                    amount_local: Number(amount_local),
+                    amount_usd: Number(amount_usd)
+                }
             },
             {
                 upsert: true

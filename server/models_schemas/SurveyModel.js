@@ -32,7 +32,7 @@ const surveySchema = new mongoose.Schema(
         offer_id:{
             type: String,
         },
-        hash:{
+        secure_hash:{
             type: String
         },
         ip_click:{
