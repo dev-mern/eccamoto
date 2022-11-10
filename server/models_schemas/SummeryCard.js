@@ -2,29 +2,32 @@ import mongoose from "mongoose";
 
 const summerySchema = new mongoose.Schema(
     {
-        user_info:{
+        user_ref:{
+            type: String,
             ref: "Users",
             required: [true, "User reference must be required"], 
         },
         total_amount:{
             type: Number,
             required: [true, "User id must be required"], 
+            min: [0, "Total amount can not be negative"]
         },
-        survey:{
-            type:{
-                completed:{
-                    type:Number,
-                    default: 0,
-                    min: [0,"Survey completed number can't be negative"]
-                },
-                in_completed:{
-                    type:Number
-                    default: 0,
-                    min: [0,"Survey in-completed number can't be negative"]
-                }
-            },
-            required: [true,"Survey information is required"]
+        completed_amount:{
+            type:Number,
+            default: 0,
+            min: [0, "Complete amount can not be negative"]
+        },
+        bonus_amount:{
+            type:Number,
+            default: 0,
+            min: [0, "Bonus amount can not be negative"]
+        },
+        out_amount:{
+            type:Number,
+            default: 0,
+            min: [0, "Out amount can not be negative"]
         }
+
     },
     {
         timestamps: true
