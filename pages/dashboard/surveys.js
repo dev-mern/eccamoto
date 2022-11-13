@@ -2,16 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
 import PrivateRoute from '../../client/components/common/PrivateRoute';
 import LayoutDashboard from '../../client/components/dashboard/LayoutDashboard';
+import useAuth from '../../client/hooks/useAuth';
 
 const Surveys = () => {
+    const {user} = useAuth();
     const [your_app_id,set_your_app_id] = useState(14946);
-    const [user_id,set_user_id] = useState("single");
+    const [user_id,set_user_id] = useState(null);
 
+    
+        
+    
+    
     const script1 = {
         div_id: "fullscreen", // string // Entry point for the script
         theme_style: 1, // int // Theme: Select 1 for fullscreen, 2 for sidebar, 3 for sidebar single item
         order_by: 2, // int // Sort surveys (optional): Select 1 for best score (default), 2 for best money, 3 for best conversion rate
-        limit_surveys: 7 // int // Limit the number of surveys displayed (optional). Default is 12.
+        limit_surveys: 21 // int // Limit the number of surveys displayed (optional). Default is 12.
     };
     const script2 = {
         div_id: "sidebar",
@@ -84,8 +90,11 @@ const Surveys = () => {
     };
 
     useEffect(()=>{
+        // set the user id 
+        set_user_id(user.user_id);
+        // and add the new config to windows
         window.config = config;
-    },[config])
+    },[config,user.user_id])
 
   
     return (
@@ -101,13 +110,13 @@ const Surveys = () => {
                         ></Script>
                     </div>
                     <div style={{maxWidth: "950px", margin: "auto"}} id="fullscreen"></div>
-                    <div style={{width: "100%", height: "150px"}} id="single"></div>
-                    <div id="sidebar" style={{height: "469px"}}></div>
-                    <div id="notification" style={{height: "469px"}}></div>
-                    <div id="notification2" style={{height: "469px"}}></div>
+                    {/* <div style={{width: "100%", height: "150px"}} id="single"></div> */}
+                    {/* <div id="sidebar" style={{height: "469px"}}></div> */}
+                    {/* <div id="notification" style={{height: "469px"}}></div> */}
+                    {/* <div id="notification2" style={{height: "469px"}}></div> */}
 
                     <div>
-                    <iframe width="100%" frameBorder="0" height="500px" width='500px' style={{border:"2px solid"}}  src="https://offers.cpx-research.com/index.php?app_id=14946&ext_user_id={unique_user_id}&secure_hash={secure_hash}&username={user_name}&email={user_email}&subid_1=&subid_2"></iframe>
+                        {/* <iframe width="100%" frameBorder="0" height="500px" width='500px' style={{border:"2px solid"}}  src="https://offers.cpx-research.com/index.php?app_id=14946&ext_user_id={unique_user_id}&secure_hash={secure_hash}&username={user_name}&email={user_email}&subid_1=&subid_2"></iframe> */}
                     </div>
                 </div>
             </LayoutDashboard>
