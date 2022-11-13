@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
+import React, { useEffect, useState } from 'react';
 
-const Surveys = () => {
+const SurveyListHighlight = () => {
     const [your_app_id,set_your_app_id] = useState(14946);
-    const [user_id,set_user_id] = useState("single");
+    const [user_id,set_user_id] = useState("survey_Offer_card");
 
     const script1 = {
         div_id: "fullscreen", // string // Entry point for the script
@@ -18,7 +18,7 @@ const Surveys = () => {
     };
     
     const script3 = {
-        div_id: "single",
+        div_id: "survey_Offer_card",
         theme_style: 3,
         display_mode: 1 //(optional): 1 show text "no surveys", 2 make element invisible, 3 dont render the element
         // Display_mode option only affects the behaviour of the box (theme style 3) if no surveys are found
@@ -66,55 +66,39 @@ const Surveys = () => {
         useIFrame: true, //boolean    
         iFramePosition: 1, // 1 right (default), 2 left
         functions: {
-            no_surveys_available: () =>
-            {
+            no_surveys_available: () =>{
                 console.log("no surveys available function here");
             }, // Function without parameter, NEVER USE window.alert... because of infinite loop
-            count_new_surveys: (countsurveys) =>
-            {
+            count_new_surveys: (countsurveys) =>{
                 console.log("count surveys function here, count:", countsurveys);
             },
-            get_all_surveys: (surveys) =>
-            {
+            get_all_surveys: (surveys) =>{
                 console.log("get all surveys function here, surveys: ", surveys);
             },
-            get_transaction: (transactions) =>
-            {
+            get_transaction: (transactions) =>{
                 console.log("transaction function here, transaction: ", transactions);
             }
-            
-            
       }  
-      
-      
     };
 
     useEffect(()=>{
         window.config = config;
     },[config])
 
-      
     return (
         <div>
-            <h2>Surveys</h2>
+            <h2>Try your luck</h2>
             <div>
-                <Script  
-                    type="text/javascript" 
-                    src="https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js"
-                    
-                ></Script>
-            </div>
-            <div style={{maxWidth: "950px", margin: "auto"}} id="fullscreen"></div>
-            <div style={{width: "100%", height: "150px"}} id="single"></div>
-            <div id="sidebar" style={{height: "469px"}}></div>
-            <div id="notification" style={{height: "469px"}}></div>
-		    <div id="notification2" style={{height: "469px"}}></div>
-
-            <div>
-            <iframe width="100%" frameBorder="0" height="500px" width='500px' style={{border:"2px solid"}}  src="https://offers.cpx-research.com/index.php?app_id=14946&ext_user_id={unique_user_id}&secure_hash={secure_hash}&username={user_name}&email={user_email}&subid_1=&subid_2"></iframe>
+                <div>
+                    <Script  
+                        type="text/javascript" 
+                        src="https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js"
+                    ></Script>
+                </div>
+                <div style={{maxWidth: "400px", margin: "auto"}} id="survey_Offer_card"></div>
             </div>
         </div>
     );
 };
 
-export default Surveys;
+export default SurveyListHighlight;

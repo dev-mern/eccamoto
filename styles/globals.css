@@ -24,3 +24,84 @@ a {
     background: black;
   }
 }
+
+
+
+/* Animation for dashboard/ number count  */
+/* Animation for Token 1 */
+@property --tokenNumberStart_1 {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --tokenNumberEnd_1 {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.tokenAnimation_1::before{
+  counter-reset: activityTokenCounter_1 var(--tokenNumberStart_1);
+  content: counter(activityTokenCounter_1);
+  animation: tokenNumberAni_1 3s ease-in-out;
+}
+@keyframes tokenNumberAni_1 {
+  from{
+      --tokenNumberStart_1: 0;
+  } to{
+      --tokenNumberStart_1: var(--tokenNumberEnd_1);
+  }
+}
+@-webkit-keyframes tokenNumberAni_1{
+  from{
+    --tokenNumberStart_1: 0;
+  } to{
+      --tokenNumberStart_1: var(--tokenNumberEnd_1);
+  }
+}
+@-moz-keyframes tokenNumberAni_1{
+  from{
+    --tokenNumberStart_1: 0;
+  } to{
+      --tokenNumberStart_1: var(--tokenNumberEnd_1);
+  }
+}
+/* Animation for Token 2 */
+@property --tokenNumberStart_2 {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+@property --tokenNumberEnd_2 {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.tokenAnimation_2::before{
+  counter-reset: activityTokenCounter_2 var(--tokenNumberStart_2);
+  content: counter(activityTokenCounter_2);
+  animation: tokenNumberAni_2 3s ease-in-out;
+}
+@keyframes tokenNumberAni_2 {
+  from{
+      --tokenNumberStart_2: 0;
+  } to{
+      --tokenNumberStart_2: var(--tokenNumberEnd_2);
+  }
+}
+@-webkit-keyframes tokenNumberAni_2 {
+  from{
+      --tokenNumberStart_2: 0;
+  } to{
+      --tokenNumberStart_2: var(--tokenNumberEnd_2);
+  }
+}
+@-moz-keyframes tokenNumberAni_2 {
+  from{
+      --tokenNumberStart_2: 0;
+  } to{
+      --tokenNumberStart_2: var(--tokenNumberEnd_2);
+  }
+}
+

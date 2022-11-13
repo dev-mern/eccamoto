@@ -12,7 +12,7 @@ const useAuthActions = () => {
             setIsUserLoading(true);
             setuserError("");
             const user = await loggedInWithCredential();
-            console.log(user);
+            // console.log(user);
             if (user.status) {
                 setUser(user.data);
                 setuserError("");

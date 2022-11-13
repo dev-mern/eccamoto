@@ -34,3 +34,19 @@ export const updateSurveySlipService = async(surveySlip={}) =>{
         return error;
     }
 }
+
+// get survey slips by query
+export const getSurveySlipsService = async(query={}) =>{
+    try {
+        await db.connect();
+        // store the slip
+        const slips = await SurveyModel.find(query,{_id:0,__v:0,ip_click:0}).lean();
+        await db.disconnect();
+        return slips;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+

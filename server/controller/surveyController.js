@@ -1,7 +1,7 @@
 // status,trans_id,user_id,sub_id,sub_id_2,amount_local,amount_usd,offer_id,hash,ip_click
 
-import { updateSummaryCardService } from "../service/summaryCardService";
-import { updateSurveySlipService } from "../service/surveyService";
+import { updateSummaryCardBySubstructService, updateSummaryCardService } from "../service/summaryCardService";
+import { getSurveySlipsService, updateSurveySlipService } from "../service/surveyService";
 
 /*
     status  = 1             : plus
@@ -21,23 +21,18 @@ export const surveyCtl = async(req,res) =>{
         }
         const surveyRes = await updateSurveySlipService(req.query);
 
-        if (surveyRes.modifiedCount > 0) {
+        if (surveyRes.modifiedCount > 0 || surveyRes.upsertedCount > 0) {
             res.status(200).json({data:surveyRes,error:false,status:"success"})
-
             // update summary card after sending response to postbackAPI
+            const {user_id,amount_usd,status,type} = req.query;
             const newCardIncDoc = {};
-            newCardIncDoc.total_amount = Number(amount_usd * (Number(status) === 2 ? -1 : 1));  // status == 2 ; calcelled, deduct the amount
-            // check for type and update
-            if (type === 'complete') {
-                newCardIncDoc.completed_amount = Number(amount_usd * (Number(status) === 2 ? -1 : 1));
-            }else if (type === 'bonus') {
-                newCardIncDoc.bonus_amount = Number(amount_usd * (Number(status) === 2 ? -1 : 1));
-            }else {
-                newCardIncDoc.out_amount = Number(amount_usd * (Number(status) === 2 ? -1 : 1));
-            }
-            
-            if (type !== 'out') {
-                const card = await updateSummaryCardService(req.query.user_id,newCardIncDoc);
+           if (type !== 'out') {
+               if (Number(status) === 1) {
+                    console.log("OKK");
+                    const card = await updateSummaryCardService(user_id,req.query);
+                }else{
+                    const decCard = await updateSummaryCardBySubstructService(user_id,req.query);
+                }
             }
             // end the response
             res.end();        
@@ -52,3 +47,14 @@ export const surveyCtl = async(req,res) =>{
     }
 }
 
+// get all survey slips
+export const getSlipsCtl = async(req,res) =>{
+    try {
+        const mainQuery = req.query;
+        const query = Object.entries(mainQuery).reduce((pre,[k,v])=>( v ? (pre[k] = v, pre) : pre ),{}); // clear empty query fields
+        const slips = await getSurveySlipsService(query); 
+        res.status(200).json({data:slips,error:false,message:""})
+    } catch (error) {
+        res.status(500).json({data:null,status:false,message:"Something went wrong!"})
+    }
+}

@@ -6,6 +6,8 @@ import { logOutByClearCookie } from '../../fetcherServices/userServices';
 const navList = [
     {title:"Home",path:"/"},
     {title:"About",path:"/about"},
+    {title:"Dashboard",path:"/dashboard"},
+    {title:"Survey",path:"/survey"},
 ]
 
 const NavBar = () => {

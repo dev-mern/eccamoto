@@ -13,7 +13,7 @@ const summerySchema = new mongoose.Schema(
             min: [0, "Total amount can not be negative"]
         },
         completed_amount:{
-            type:Number,
+            type: Number,
             default: 0,
             min: [0, "Complete amount can not be negative"]
         },

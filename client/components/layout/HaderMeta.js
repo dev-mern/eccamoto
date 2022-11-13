@@ -9,7 +9,7 @@ const defalutMeta = {
 const HaderMeta = ({metaInfo = defalutMeta}) => {
     return (
         <Head>
-            {metaInfo.title ? <title>{`${metaInfo.title} / Survey Management`}</title> : <title>Survey Management</title>}
+            {metaInfo.title ? <title>{`${metaInfo.title} / Eccamoto`}</title> : <title>Eccamoto</title>}
             <meta name="description" content={metaInfo.title} />
             <link rel="icon" href="/favicon.ico" />
         </Head>

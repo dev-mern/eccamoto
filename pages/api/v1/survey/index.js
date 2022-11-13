@@ -1,5 +1,5 @@
 import nextConnector from 'next-connect';
-import { surveyCtl } from '../../../../server/middlewares/surveyController';
+import { surveyCtl } from '../../../../server/controller/surveyController';
 
 const connectorOption = {
     onerror: (err,req,res,next) =>{
