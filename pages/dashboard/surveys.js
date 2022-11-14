@@ -96,7 +96,8 @@ const Surveys = () => {
         window.config = config;
     },[config,user.user_id])
 
-  
+    
+
     return (
         <PrivateRoute>
             <LayoutDashboard>
@@ -110,6 +111,7 @@ const Surveys = () => {
                         ></Script>
                     </div>
                     <div style={{maxWidth: "950px", margin: "auto"}} id="fullscreen"></div>
+                    
                     {/* <div style={{width: "100%", height: "150px"}} id="single"></div> */}
                     {/* <div id="sidebar" style={{height: "469px"}}></div> */}
                     {/* <div id="notification" style={{height: "469px"}}></div> */}

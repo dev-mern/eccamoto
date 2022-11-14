@@ -6,12 +6,17 @@ export const addAuthController = async(req,res,next) =>{
         const newUser = {...req.body};
         newUser.password = await makePasswordHash(req.body?.password);
         delete newUser.confirm_password;
-        const user = await addUserService(newUser);
-        if (user._id) {
-            // create JWT and sign in user
-            next();
+        // check user.role === 'user' is must
+        if (!newUser.role) {
+            const user = await addUserService(newUser);
+            if (user._id) {
+                // create JWT and sign in user
+                next();
+            }else{
+                res.status(200).json({data:null,status:true,errors:{message:"Server side error. Try again."}})
+            }
         }else{
-            res.status(200).json({data:null,status:true,errors:{message:"Server side error. Try again."}})
+            res.status(200).json({data:null,status:true,errors:{message:"User's role will be given by an Admin"}})
         }
     } catch (error) {
         console.log(error);

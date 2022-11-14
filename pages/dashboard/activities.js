@@ -55,7 +55,7 @@ const Activities = () => {
         if (tokens.length && surveySlips.length) {
             const newTokens = tokens.map(tokenEl =>{
                 if (tokenEl.type === "survey") {
-                    tokenEl.number = surveySlips.length;
+                    tokenEl.number = surveySlips.filter(survey => survey.type === "complete").length;
                 }else if (tokenEl.type === "earning") {
                     tokenEl.number = summaryCard.total_amount;
                 }

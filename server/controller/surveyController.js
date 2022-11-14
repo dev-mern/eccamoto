@@ -26,14 +26,13 @@ export const surveyCtl = async(req,res) =>{
             // update summary card after sending response to postbackAPI
             const {user_id,amount_usd,status,type} = req.query;
             const newCardIncDoc = {};
-           if (type !== 'out') {
-               if (Number(status) === 1) {
-                    console.log("OKK");
-                    const card = await updateSummaryCardService(user_id,req.query);
-                }else{
-                    const decCard = await updateSummaryCardBySubstructService(user_id,req.query);
-                }
+           
+            if (Number(status) === 1) {
+                const card = await updateSummaryCardService(user_id,req.query);
+            }else{
+                const decCard = await updateSummaryCardBySubstructService(user_id,req.query);
             }
+            
             // end the response
             res.end();        
         }else{

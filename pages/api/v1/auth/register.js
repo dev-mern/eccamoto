@@ -14,8 +14,8 @@ const connectorOption = {
 }
 
 // registration middlewares
-const handler = nextConnector(connectorOption)
-// handler.use(cookieParser(`${envInfo.COOKIE_SIGN_SECRET}`))
+const handler = nextConnector(connectorOption);
+
 handler.post(regInfoValidateExpress,checkExistUser,addUserId,addAuthController,doUserLogin)
 
 export default handler;

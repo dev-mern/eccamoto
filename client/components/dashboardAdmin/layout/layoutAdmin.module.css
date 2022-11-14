@@ -1,0 +1,59 @@
+
+.adLayout_container{
+    background-color: #282e38;
+    min-height: 100vh;
+    position: relative;
+    border-top: 1px solid #282e38; /* to solve mergin issue for child to affect the parent*/
+    border-bottom: 1px solid #282e38; /* to solve mergin issue for child to affect the parent*/
+    color: #ebe9e9;
+}
+
+.adLayout_viewArea{
+}
+
+.adLayout_viewArea_wrapper{
+    margin-left: var(--adminDashNavWidth);
+}
+
+.adLayout_taskArea{
+    margin: 1rem 2rem;
+    color: #d3d0d0;
+}
+
+/* side layout styles  */
+.adLayout_sideNav_wrapper{
+    background-color: #313844;
+    width: var(--adminDashNavWidth);
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.ad_sideNav_logo{
+    border-bottom: 1px solid;
+}
+.ad_sideNav_items{
+    margin: 8px auto;
+}
+.ad_sideNav_item{
+    display: flex;
+    gap: 10px;
+    padding: 5px 4px 5px 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.ad_sideNav_item:hover{
+    background-color: #1e2229;
+    color: #00ffff;
+    transition: all 0.3s ease-in-out;
+}
+.ad_sideNav_item_active{
+    color: yellowgreen;
+}
+
+/* horizontal nav styles  */
+.hztlNavAd_container{
+    display: flex;
+    background-color: #49456b;
+
+}

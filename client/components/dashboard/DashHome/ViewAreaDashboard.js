@@ -7,20 +7,26 @@ import EarningCard from './EarningCard';
 import SlipGraph from './SlipGraph';
 import SurveyListHighlight from './SurveyListHighlight';
 import dashST from "../../../../styles/dashboard.module.css";
+import NoticeCard from './NoticeCard';
+import { fetchNoticesService } from '../../../fetcherServices/noticesFetchService';
+import { valueSetter } from 'dev-reactils';
+
+
 
 const ViewAreaDashboard = () => {
     const {user,isUserLoading} = useAuth();
     const [card,setCard] = useState({});
     const [slipsCompleteGraphData,setSlipsCompleteGraphData] = useState([]);
-
-
+    const [notices,setNotices] = useState([]);
+    const [noticesErrLoad,setNoticesErrLoad] = useState({error:"",loading:false});
+    const [openNotice,setOpenNotice] = useState(null);
     
     // generate list of days(30 day)
     const graphDates = Array.from(Array(30).keys()).reverse().map(num => new Date(new Date().setDate(new Date().getDate() - num)).toISOString().split("T")[0]);
 
     const slipGetter = async(userID) =>{
         if (userID) {
-            const slipList = await fetchSlipList(`user_id=${userID}&type=${"complete"}&status=1`);
+            const slipList = await fetchSlipList(`user_id=${userID}&status=1`);
             if (!slipList.error && slipList.data?.length) {
                 const formattedData = [];
                 slipList.data?.forEach(servey =>{
@@ -53,7 +59,6 @@ const ViewAreaDashboard = () => {
                         return {updatedAt: dateEl, date:`${day}`, earns: 0}
                     }
                 })
-                
                 setSlipsCompleteGraphData(finalSurveyData)
             }
         }
@@ -73,15 +78,61 @@ const ViewAreaDashboard = () => {
         const executer = async() =>{
             await slipGetter(user.user_id);
             await getSummeryCard(user.user_id);
+            if (!notices.length) {
+                await getNoticesList();
+            }
         }
         executer();
     },[user.user_id])
 
+    const noticeHandler = (noticeIdx) =>{
+        const newNotice = `notice_${noticeIdx}`;
+        newNotice === openNotice ? setOpenNotice(null) : setOpenNotice(newNotice);
+    }
 
+    
+    // fetch the notices
+    const getNoticesList = async() =>{
+        valueSetter(setNoticesErrLoad,true,'loading');
+        valueSetter(setNoticesErrLoad,"",'error');
+        const noticesRes = await fetchNoticesService();
+        
+        if (noticesRes.data instanceof Array) {
+            setNotices(noticesRes.data)
+            valueSetter(setNoticesErrLoad,noticesRes.message,'error'); // delete this
+        }else{
+            valueSetter(setNoticesErrLoad,noticesRes.message,'error');
+        }
+        valueSetter(setNoticesErrLoad,false,'loading');
+        
+    }
+    
     return (
         <div className={dashST.overview_container}>
             <div>
-                <SurveyListHighlight></SurveyListHighlight>
+                <div className={`${dashST.overview_noticeboard}`}>
+                    <div className={`${dashST.earning_card_title}`}>
+                        <h3>Notice Board</h3>
+                    </div>
+                    <div className={`${dashST.overview_notices}`}>
+                        {
+                            notices.length
+                            ?   <div>
+                                    {
+                                        notices.map((notice,noticeIdx) => <NoticeCard notice={notice} openNotice={openNotice} noticeHandler={noticeHandler} noticeIdx={noticeIdx} key={notice.notice_id}></NoticeCard>)
+                                    }
+                                </div>
+                            :   <div> 
+                                    <p style={{textAlign:"center", marginTop:"2rem"}}>{noticesErrLoad.loading ? "Loading........." : "No notice available at this moment"}</p> 
+                                </div>
+                        }
+                        
+                    </div>
+                    {
+                        noticesErrLoad.error && <p style={{textAlign:"right", margin:"0", color:"red"}}>Error: {noticesErrLoad.error}</p>
+                    }
+                </div>
+                <SurveyListHighlight user={user}></SurveyListHighlight>
             </div>
             <div>
                 <EarningCard card={card}></EarningCard>
@@ -90,7 +141,12 @@ const ViewAreaDashboard = () => {
                         <h3>Earnings in last 30 days</h3>
                     </div>
                     <div className={dashST.earning_graph}>
-                        <SlipGraph graphData={slipsCompleteGraphData}></SlipGraph>
+                        {
+                            slipsCompleteGraphData.length 
+                            ?   <SlipGraph graphData={slipsCompleteGraphData}></SlipGraph>
+                            :   <div style={{height:"100%", display:"flex",justifyContent:"center",alignItems:"center"}}><p>You have no earning in last 30 days</p></div>
+                        }
+                        
                     </div>
                 </div>
             </div>

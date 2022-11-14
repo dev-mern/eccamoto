@@ -1,3 +1,6 @@
+:root{
+  --adminDashNavWidth: 200px;
+}
 html,
 body {
   padding: 0;

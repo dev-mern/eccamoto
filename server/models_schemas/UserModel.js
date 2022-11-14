@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
     {
-            user_id:{
+        user_id:{
             type: String,
             required: [true, "Id must be required"], 
             trim: true, 
@@ -32,6 +32,15 @@ const userSchema = new mongoose.Schema(
             minLength: [3, "Name must be at least 3 characteres."],
             maxLength: [300, "Name is too large."],
         },
+        role:{
+            type: String,
+            enum:{
+                values: ['user','admin'],
+                message: "{VALUE} is invalid role. Role must be 'user' or 'admin'."
+            },
+            required: [true,"Role is required"],
+            default: 'user'
+        }
     },
     {
         timestamps: true

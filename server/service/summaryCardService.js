@@ -3,7 +3,7 @@ import SummeryCardModel from "../models_schemas/SummeryCard";
 
 export const updateSummaryCardService = async(user_id,incrementDoc={}) =>{
     const {amount_usd,type} = incrementDoc;
-    console.log("incrementing");
+    
     try {
         // const {total_amount,completed_amount,bonus_amount,out_amount} = incrementDoc;
         const incDoc = {total_amount : Number(amount_usd)}

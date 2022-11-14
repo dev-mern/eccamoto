@@ -1,15 +1,15 @@
 import Script from 'next/script';
 import React, { useEffect, useState } from 'react';
 
-const SurveyListHighlight = () => {
+const SurveyListHighlight = ({user}) => {
     const [your_app_id,set_your_app_id] = useState(14946);
-    const [user_id,set_user_id] = useState("survey_Offer_card");
+    const [user_id,set_user_id] = useState(null);
 
     const script1 = {
         div_id: "fullscreen", // string // Entry point for the script
         theme_style: 1, // int // Theme: Select 1 for fullscreen, 2 for sidebar, 3 for sidebar single item
         order_by: 2, // int // Sort surveys (optional): Select 1 for best score (default), 2 for best money, 3 for best conversion rate
-        limit_surveys: 7 // int // Limit the number of surveys displayed (optional). Default is 12.
+        limit_surveys: 6 // int // Limit the number of surveys displayed (optional). Default is 12.
     };
     const script2 = {
         div_id: "sidebar",
@@ -82,8 +82,11 @@ const SurveyListHighlight = () => {
     };
 
     useEffect(()=>{
+        // set the user id 
+        set_user_id(user.user_id);
+        // and add the new config to windows
         window.config = config;
-    },[config])
+    },[config,user.user_id])
 
     return (
         <div>
@@ -95,7 +98,7 @@ const SurveyListHighlight = () => {
                         src="https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js"
                     ></Script>
                 </div>
-                <div style={{maxWidth: "400px", margin: "auto"}} id="survey_Offer_card"></div>
+                <div style={{margin: "auto"}} id="fullscreen"></div>
             </div>
         </div>
     );

@@ -77,7 +77,6 @@ export const regInfoValidateExpress = async(req,res,next) =>{
 
 
 // check if the user is already exist or registered
-
 export const checkExistUser = async(req,res,next) =>{
   try {
     // check for email exist
@@ -119,12 +118,13 @@ export const doUserLogin = async(req,res,next) =>{
           user_id: user.user_id,
           email: user.email,
           name: user.name,
+          role: user.role,
           createdAt: user.createdAt,
         }
 
          // generate token 
          const token = jwt.sign(tokenUser,envInfo.JWT_SECRET,{expiresIn:envInfo.JWT_EXPIRY})   // expire 7 days: 7*24*60*60*1000
-
+         
          // set cookie
          const cookieOptions = {
             // maxAge: 60 * 60 * 24 * 3, // 3 days  (keep it below JWT expire)
@@ -132,8 +132,9 @@ export const doUserLogin = async(req,res,next) =>{
             httpOnly: true,
             signed: true,
             sameSite:"strict",
-             secure: process.env.NODE !== "development",  // allow this only in production
+             secure: process.env.NODE_ENV !== "development",  // allow this only in production
             // secure: false,  // allow this only in production
+            // secure: process.env.NODE_ENV === "development" ? false : true,  // check if it is working in production
             path: "/"
           }
          // set the cookie header
@@ -161,8 +162,12 @@ export const keepUserLoggedIn = async(req,res,next) =>{
     // Parse the cookies on the request
     const cookies = cookie.parse(req.headers.cookie || '');
     const token = cookies[envInfo.COOKIE_NAME];
-    const decodedUserInfo = jwt.verify(token,process.env.JWT_SECRET);
-    res.status(200).json({data:decodedUserInfo, status:true,message:""})
+    if (token) {
+      const decodedUserInfo = jwt.verify(token,process.env.JWT_SECRET);
+      res.status(200).json({data:decodedUserInfo, status:true,message:""})
+    }else{
+      res.status(401).json({data:{}, status:false,message:"Token is required"})
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({data:null,status:false,message:"Server Error! Try again."});
@@ -179,16 +184,66 @@ export const logOutUser = (req,res)=>{
           httpOnly: true,
           signed: true,
           sameSite:"strict",
-          //  secure: process.env.NODE !== "development",  // allow this only in production
-          secure: false,  // allow this only in production
+           secure: process.env.NODE !== "development",  // allow this only in production
+          // secure: false,  // allow this only in production
           path: "/"
       }
       
       res.setHeader("Set-Cookie",cookie.serialize(envInfo.COOKIE_NAME,"",cookieOptions));
       res.status(200).json({data:null,status:true,message:""})
       
-  } catch (error) {
+    } catch (error) {
       console.log(error);
+      res.status(500).json({data:null,status:true,message:"Something went wrong!"})
   }
 }
 
+
+// check if the user is an admin
+export const checkIsAdmin = async(req,res,next) =>{
+  try {
+    if (req.decodedUser) {
+      if (req.decodedUser.role === "admin") {
+        req.isAdmin = true;
+        next();
+      }else{
+        res.status(500).json({data:null,status:false,errors:{message:"An admin is allowed to perform this action!"}});
+      }
+    }else{
+      res.status(500).json({data:null,status:false,errors:{message:"User didn't found!"}});
+    }
+        
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({data:null,status:false,errors:{message:"Unknown error occured."}})
+  }
+}
+
+// check if the user is login 
+export const checkIsLoggedIn = async(req,res,next) =>{
+  
+  try {
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const token = cookies[envInfo.COOKIE_NAME];
+    if (token) {
+      const decodedUserInfo = jwt.verify(token,process.env.JWT_SECRET);
+      if (decodedUserInfo) {
+        // check if the user is really exist in DB
+        const existUser = await getUserByEmail(decodedUserInfo.email);
+        if (existUser?.user_id) {
+          req.decodedUser = decodedUserInfo;
+          next();
+        }else{
+          throw new Error("Invalid authentication.");
+        }
+      }else{
+        throw new Error("Token is not acceptable.");
+      }
+    }else{
+      throw new Error("Token is required.")
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({data:null,status:false,errors:{message: error.message}})
+  }
+}

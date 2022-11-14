@@ -35,6 +35,8 @@ export const updateSurveySlipService = async(surveySlip={}) =>{
     }
 }
 
+
+
 // get survey slips by query
 export const getSurveySlipsService = async(query={}) =>{
     try {

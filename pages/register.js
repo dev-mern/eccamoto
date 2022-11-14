@@ -19,8 +19,9 @@ const formElements = [
 ]
 
 const Register = () => {
-    const {user, setUser, isUserLoading, setIsUserLoading,  userError, setuserError} = useAuth();
+    const {user, setUser, isUserLoading,  userError, setuserError} = useAuth();
     const [errors,setErrors] = useState({});
+    const [isRegLoad,setIsRegLoad] = useState(false);
     const router = useRouter();
 
     useEffect(()=>{
@@ -37,21 +38,26 @@ const Register = () => {
         if (isError) {
             return;
         }
+        
         // .. check if passowrds are same 
         if (data.password === data.confirm_password) {
             setUser({});
-            setIsUserLoading(true);
+            setIsRegLoad(true);
             setuserError("");
             // send the server
             const newUser = await fetchPost("/api/v1/auth/register",data);
+            console.log(newUser);
+            
             if (newUser.status) {
                 setUser(newUser.data);
                 setuserError("");
                 router.push("/");
             }else{
+                console.log(newUser);
                 setErrors(newUser.errors)
             }
-            setIsUserLoading(false);
+            
+            setIsRegLoad(false);
         }else{
             document.getElementById("err_confirm_password").innerText = "Password didn't matched";
         }
@@ -78,7 +84,12 @@ const Register = () => {
                                 }
                                 <div>
                                     {
-                                        isUserLoading ? <p>Loading......</p> : <button type="submit">Sign Up</button>
+                                        errors.message && <p style={{color:"red", margin:0,}}>{errors.message}</p>
+                                    }
+                                </div>
+                                <div>
+                                    {
+                                        isRegLoad ? <p>Loading......</p> : <button type="submit">Sign Up</button>
                                     }
                                 </div>
                             </form>
