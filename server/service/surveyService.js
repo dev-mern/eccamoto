@@ -7,7 +7,7 @@ export const updateSurveySlipService = async(surveySlip={}) =>{
         const {status,trans_id,user_id,subid_1,subid_2,amount_local,amount_usd,offer_id,secure_hash,type,ip_click} = surveySlip;
         const setDoc = {status,trans_id,user_id,subid_1,subid_2,offer_id,secure_hash,type,ip_click};
         const incDoc = {amount_local,amount_usd };
-        console.log(incDoc, typeof status);
+        
         await db.connect();
         // store the slip
         const slip = await SurveyModel.updateOne(

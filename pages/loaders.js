@@ -31,3 +31,10 @@ const Test = () => {
 };
 
 export default Test;
+
+
+/*
+    dashboard activities: All activities (filter by date) recent first
+    home page: user name in large font at venter as welcome
+
+*/

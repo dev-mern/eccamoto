@@ -3,7 +3,7 @@ import loaderST from './LoaderTriangle.module.css';
 
 const LoaderTriangle = () => {
     return (
-        <div class={loaderST.custom_loader}></div>
+        <div className={loaderST.custom_loader}></div>
     );
 };
 

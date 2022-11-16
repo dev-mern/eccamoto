@@ -18,7 +18,7 @@ const LayoutDashboard = ({children}) => {
                 <SideNavDashboard user={user}></SideNavDashboard>
             </aside>
             <section className={dashST.dash_view_wrapper}>
-                <ViewNavDashboard></ViewNavDashboard>
+                <ViewNavDashboard user={user}></ViewNavDashboard>
                 <div className={dashST.dash_view_child_container}>
                     {children}
                 </div>

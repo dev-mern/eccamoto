@@ -8,7 +8,7 @@ const EarningCard = ({card}) => {
                 <h3>Earnings</h3>
             </div>
             <h1 className={dashST.earning_card_amount}>${card?.total_amount?.toFixed(3) ?? 0}</h1>
-            <p className={dashST.earning_card_text}>When you reach 10 USD you can cash out your earnings by pressing the button above</p>
+            <p className={dashST.earning_card_text}>When you reach 10 USD you can cash out your earnings</p>
         </div>
     );
 };

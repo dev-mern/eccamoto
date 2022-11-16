@@ -40,6 +40,9 @@ const Activities = () => {
                 valueSetter(setIsActivityLoading,true,'slip');
                 const slipsRes = await fetchSlipList(`user_id=${user.user_id}`);
                 if (!slipsRes.error && slipsRes.data) {
+                    // sort the data by updated date
+                    const sortedData = slipsRes.data?.sort((a,b)=>(new Date(b.updatedAt) - new Date(a.updatedAt)));
+                    console.log(sortedData,"SORTED");
                     setSurveySlips(slipsRes.data);
                     valueSetter(setIsActivityLoading,false,'slip');
                 }
@@ -65,6 +68,7 @@ const Activities = () => {
         }
     },[surveySlips.length,summaryCard])
     
+    console.log(surveySlips);
 
     return (
         <PrivateRoute>

@@ -2,7 +2,7 @@ import { fetchDelete, fetchGet } from "../utils/fetchers";
 
 export const fetchNoticesService = async (query) =>{
     try {
-        const url_endpoint = `/api/v1/notices?=${query}`;
+        const url_endpoint = `/api/v1/notices?${query}`;
         const notices = await fetchGet(url_endpoint);
         return notices;
     } catch (error) {
@@ -20,4 +20,7 @@ export const fetchNoticesDeleteService = async (notice_id) =>{
         return error;
     }
 }
+
+
+
 

@@ -90,7 +90,6 @@ const SurveyListHighlight = ({user}) => {
 
     return (
         <div>
-            <h2>Try your luck</h2>
             <div>
                 <div>
                     <Script  

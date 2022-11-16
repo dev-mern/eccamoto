@@ -1,15 +1,15 @@
 import React from 'react';
 import NavLink from 'next/link';
 import dashST from "../../../styles/dashboard.module.css";
-import useAuth from '../../hooks/useAuth';
 
-const viewNavList = [
-    {name:"Home",path:"/"},
-    {name:"Profile",path:""},
-]
 
-const ViewNavDashboard = () => {
-    // const {user,isUserLoading} = useAuth();
+const ViewNavDashboard = ({user}) => {
+
+    const viewNavList = [
+        {name:"Home",path:"/"},
+        {name: user.name ?? "Profile",path:""},
+    ]
+    
     return (
         <nav className={`${dashST.viewNav}`}>
             <div className={`${dashST.viewNav_brand}`}>Brand</div>

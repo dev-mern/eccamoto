@@ -20,6 +20,7 @@ const ViewAreaDashboard = () => {
     const [notices,setNotices] = useState([]);
     const [noticesErrLoad,setNoticesErrLoad] = useState({error:"",loading:false});
     const [openNotice,setOpenNotice] = useState(null);
+    const [limitedNotice,setlimitedNotice] = useState({notices:[],number:4});
     
     // generate list of days(30 day)
     const graphDates = Array.from(Array(30).keys()).reverse().map(num => new Date(new Date().setDate(new Date().getDate() - num)).toISOString().split("T")[0]);
@@ -95,8 +96,8 @@ const ViewAreaDashboard = () => {
     const getNoticesList = async() =>{
         valueSetter(setNoticesErrLoad,true,'loading');
         valueSetter(setNoticesErrLoad,"",'error');
-        const noticesRes = await fetchNoticesService();
-        
+        const noticesRes = await fetchNoticesService("status=active");
+        console.log(noticesRes.data.length,"fount");
         if (noticesRes.data instanceof Array) {
             setNotices(noticesRes.data)
             valueSetter(setNoticesErrLoad,noticesRes.message,'error'); // delete this
@@ -106,6 +107,13 @@ const ViewAreaDashboard = () => {
         valueSetter(setNoticesErrLoad,false,'loading');
         
     }
+
+    // limit the notice by user click
+    useEffect(()=>{
+        const filteredNotices = notices.slice(0,limitedNotice.number);
+        setlimitedNotice({...limitedNotice,notices:filteredNotices});
+        console.log(filteredNotices);
+    },[notices.length,limitedNotice.number])
     
     return (
         <div className={dashST.overview_container}>
@@ -119,12 +127,16 @@ const ViewAreaDashboard = () => {
                             notices.length
                             ?   <div>
                                     {
-                                        notices.map((notice,noticeIdx) => <NoticeCard notice={notice} openNotice={openNotice} noticeHandler={noticeHandler} noticeIdx={noticeIdx} key={notice.notice_id}></NoticeCard>)
+                                        // notices.map((notice,noticeIdx) => <NoticeCard notice={notice} openNotice={openNotice} noticeHandler={noticeHandler} noticeIdx={noticeIdx} key={notice.notice_id}></NoticeCard>)
+                                        limitedNotice.notices.map((notice,noticeIdx) => <NoticeCard notice={notice} openNotice={openNotice} noticeHandler={noticeHandler} noticeIdx={noticeIdx} key={notice.notice_id}></NoticeCard>)
                                     }
                                 </div>
                             :   <div> 
                                     <p style={{textAlign:"center", marginTop:"2rem"}}>{noticesErrLoad.loading ? "Loading........." : "No notice available at this moment"}</p> 
                                 </div>
+                        }
+                        {
+                            (limitedNotice.number < notices.length) && <button style={{border:"none", marginLeft:"auto",display:"block",cursor:"pointer", padding:"1px 8px", borderRadius:"2px"}} onClick={()=>setlimitedNotice({...limitedNotice,number:limitedNotice.number+1})}>more...</button>
                         }
                         
                     </div>
