@@ -1,0 +1,19 @@
+.custom_loader {
+    width: 69px;
+    height: 36px;
+    --c0:radial-gradient(farthest-side          ,#766DF4 90%,#0000);
+    --c1:radial-gradient(farthest-side at top   ,#766DF4 90%,#0000);
+    --c2:radial-gradient(farthest-side at bottom,#766DF4 90%,#0000);
+    background:var(--c0), var(--c1), var(--c2), var(--c0), var(--c1), var(--c2);
+    background-size: 12px 12px,12px 6px,12px 6px;
+    background-repeat: no-repeat;
+    animation:d5 1s infinite; 
+  }
+  
+  @keyframes d5 {
+    0%   {background-position:calc(0*100%/3) 50%,calc(1*100%/3) calc(50% + 3px),calc(1*100%/3) calc(50% - 3px), calc(3*100%/3) 50%,calc(2*100%/3) calc(50% + 3px),calc(2*100%/3) calc(50% - 3px)}
+    33%  {background-position:calc(0*100%/3) 50%,calc(1*100%/3) 100%           ,calc(1*100%/3) 0              , calc(3*100%/3) 50%,calc(2*100%/3) 100%           ,calc(2*100%/3) 0              }
+    66%  {background-position:calc(1*100%/3) 50%,calc(0*100%/3) 100%           ,calc(0*100%/3) 0              , calc(2*100%/3) 50%,calc(3*100%/3) 100%           ,calc(3*100%/3) 0              }
+    90%,
+    100% {background-position:calc(1*100%/3) 50%,calc(0*100%/3) calc(50% + 3px),calc(0*100%/3) calc(50% - 3px), calc(2*100%/3) 50%,calc(3*100%/3) calc(50% + 3px),calc(3*100%/3) calc(50% - 3px)}
+  }

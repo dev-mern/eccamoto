@@ -207,12 +207,18 @@
 }
 
 
-/* activity surver slips table styles */
+/* activity surver slips table and advertise styles */
+.activity_ad_container{
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+}
 .activity_slips_container{
     background-color: #fff;
     box-shadow: 0 0 5px 2px #bdbaba;
     border-radius: 5px;
     padding: 2rem;
+    width: 100%;
     max-width: 800px;
     margin: auto;
 }
@@ -231,8 +237,33 @@
 }
 .activity_slip{
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(4,1fr);
     gap: 10px;
     margin: 5px auto;
     padding: 2px 10px;
+}
+.ads_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.advertise{
+    border: 1px solid;
+    min-width: 336px;
+    min-height: 280px;
+    animation: adBgAni 2s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes adBgAni {
+    0%{
+        background-color: #17265e62;
+        color: yellow;
+    }100%{
+        background-color: #175e2fc5;
+        color: whitesmoke;
+
+    }
 }

@@ -65,6 +65,7 @@ const Activities = () => {
         }
     },[surveySlips.length,summaryCard])
     
+
     return (
         <PrivateRoute>
             <LayoutDashboard>
@@ -73,25 +74,39 @@ const Activities = () => {
                         tokens?.map((token,tokenIdx) =><ActivityToken token={token} tokenIdx={tokenIdx} isActivityLoading={isActivityLoading} key={token.title}></ActivityToken>)
                     }
                 </div>
-                <div className={dashSt.activity_slips_container}>
-                    <div className={dashSt.slips_title_wrapper}>
-                        <h3 className={dashSt.slips_title}>All activities</h3>
+                <div className={dashSt.activity_ad_container}>
+                    <div className={dashSt.activity_slips_container}>
+                        <div className={dashSt.slips_title_wrapper}>
+                            <h3 className={dashSt.slips_title}>All activities</h3>
+                        </div>
+                        <div className={`${dashSt.activity_slip} ${dashSt.activity_slips_head}`}>
+                            <div>Date</div>
+                            <div>Transaction ID</div>
+                            <div>Action</div>
+                            <div style={{textAlign:"right"}}>Earn($)</div>
+                        </div>
+                        <div>
+                            {
+                                !isActivityLoading.slip 
+                                ?    <div>
+                                        {
+                                            surveySlips?.map((slip,slipIdx) => <ActivitySlip slip={slip} slipIdx={slipIdx} key={`slip._id_${slipIdx}`}></ActivitySlip>)
+                                        }
+                                    </div>
+                                : <div style={{display:"flex",justifyContent:"center",alignItems:"center", minHeight:"200px"}}><LoaderRound></LoaderRound></div>
+                            }
+                        </div>
                     </div>
-                    <div className={`${dashSt.activity_slip} ${dashSt.activity_slips_head}`}>
-                        <div>Date</div>
-                        <div>Action</div>
-                        <div style={{textAlign:"right"}}>Earn($)</div>
+                    <div className={dashSt.ads_container}>
+                        <div className={dashSt.advertise}>
+                            <h2>Advertise 1</h2>
+                            <p> 336 x 280</p>
+                        </div>
+                        <div className={dashSt.advertise}>
+                            <h2>Advertise 2</h2>
+                            <p> 336 x 280</p>
+                        </div>
                     </div>
-                    {
-                        !isActivityLoading.slip 
-                        ?    <div>
-                                {
-                                    surveySlips?.map((slip,slipIdx) => <ActivitySlip slip={slip} slipIdx={slipIdx} key={`slip._id_${slipIdx}`}></ActivitySlip>)
-                                }
-                            </div>
-                        : <div style={{display:"flex",justifyContent:"center",alignItems:"center", minHeight:"200px"}}><LoaderRound></LoaderRound></div>
-                    }
-                    
                 </div>
             </LayoutDashboard>
         </PrivateRoute>

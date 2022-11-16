@@ -1,0 +1,35 @@
+.loginReg_container{
+    width: 400px;
+    /* height: 440px; */
+    padding: 10px 24px;
+    box-shadow: 0px 0px 5px 1px grey;
+    border-radius: 5px;
+    
+    margin: 6rem auto;
+}
+
+.loginReg_field{
+    margin: 10px auto;
+    text-transform: capitalize;
+}
+
+.err_msg{
+    display: block;
+    text-align: end;
+    color: red;
+    font-size: 14px;
+    min-height: 28px;
+}
+.form_btn{
+    margin: auto;
+    display: block;
+    border: none;
+    padding: 6px 16px;
+    font-weight: 700;
+
+}
+.form_btn:hover{
+    background-color: lightblue;
+    color: blue;
+    cursor: pointer;
+}

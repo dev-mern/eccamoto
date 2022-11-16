@@ -1,5 +1,6 @@
 import { addUserService } from "../service/authService";
 import { makePasswordHash } from "../utils/passwordBcryptEncrype";
+import db from "../db";
 
 export const addAuthController = async(req,res,next) =>{
     try {
@@ -13,7 +14,11 @@ export const addAuthController = async(req,res,next) =>{
                 // create JWT and sign in user
                 next();
             }else{
-                res.status(200).json({data:null,status:true,errors:{message:"Server side error. Try again."}})
+                const errors =  db.errorFormatterMongoose(user);
+                if (errors instanceof Object) {
+                    return res.status(500).json({data:null,status:true,errors})
+                }
+                return res.status(500).json({data:null,status:true,errors:{message:"Server side error. Try again."}})
             }
         }else{
             res.status(200).json({data:null,status:true,errors:{message:"User's role will be given by an Admin"}})

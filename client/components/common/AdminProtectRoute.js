@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import useAuth from '../../hooks/useAuth';
+import LoaderTriangle from './Loaders/LoaderTriangle/LoaderTriangle';
 
 const AdminProtectRoute = ({children}) => {
     const {user,isUserLoading} = useAuth();
     const router = useRouter();
     
     if (isUserLoading) {
-        return <p>Loading...........</p>
+        return <div style={{width:"100vw", height:"100vh", display:"flex", justifyContent:"center", alignItems:"center"}}><LoaderTriangle /></div>
     }
     
     if (!isUserLoading && !user.user_id) {

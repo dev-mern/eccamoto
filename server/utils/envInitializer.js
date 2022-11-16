@@ -6,3 +6,9 @@ export const envInfo = {
     COOKIE_NAME: process.env.COOKIE_NAME,
     COOKIE_SIGN_SECRET: process.env.COOKIE_SIGN_SECRET,
 }
+
+
+export const userID_limit = {
+    min: 10000000,
+    max: 99999999,
+}

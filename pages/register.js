@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import Layout from '../client/components/layout/Layout';
 import useAuth from '../client/hooks/useAuth';
 import { fetchPost } from '../client/utils/fetchers';
+import logRegST from "../styles/LoginRegister.module.css";
+import LoaderDotCut from '../client/components/common/Loaders/LoaderDotCut/LoaderDotCut';
 
 const registerPageMeta = {
     title: "Register",
@@ -66,35 +68,30 @@ const Register = () => {
     
     return (
         <Layout pageMeta={registerPageMeta}>
-            <div style={{border:"1px solid",maxWidth:"450px", margin:"10rem auto", padding:"2rem"}}>
-                <h2>Register Page</h2>
+            <div className={logRegST.loginReg_container}>
+                <h2>Register Here</h2>
                 <div>
-                    {
-                        isUserLoading && !user.user_id
-                        ? <p>Loading.............</p>
-                        :   <form onSubmit={formSubmissionHandle}>
-                                {
-                                    formElements.map(field => <div style={{margin:"10px auto"}} key={field.name}>
-                                        <div style={{display:"flex", justifyContent:"space-between",}}>
-                                            <label htmlFor="">{field.name}</label>
-                                            <input onBlur={handleInput} type={field.type} name={field.name} message={field.message} data-isrequired={field.required} placeholder={field.placeholder}  />
-                                        </div>
-                                        <output style={{display:"block", textAlign:"end", color:"red", fontSize:"14px", minHeight:"16px"}} id={`err_${field.name}`}>{errors? errors[field.name]:""}</output>
-                                    </div>)
-                                }
-                                <div>
-                                    {
-                                        errors.message && <p style={{color:"red", margin:0,}}>{errors.message}</p>
-                                    }
+                    <form onSubmit={formSubmissionHandle}>
+                        {
+                            formElements.map(field => <div className={logRegST.loginReg_field} key={field.name}>
+                                <div style={{display:"flex", justifyContent:"space-between",}}>
+                                    <label htmlFor="">{field.name} :</label>
+                                    <input onBlur={handleInput} type={field.type} name={field.name} message={field.message} data-isrequired={field.required} placeholder={field.placeholder}  />
                                 </div>
-                                <div>
-                                    {
-                                        isRegLoad ? <p>Loading......</p> : <button type="submit">Sign Up</button>
-                                    }
-                                </div>
-                            </form>
-                    }
-                    
+                                <output className={logRegST.err_msg} id={`err_${field.name}`}>{errors? errors[field.name]:""}</output>
+                            </div>)
+                        }
+                        <div>
+                            {
+                                errors.message && <p className={logRegST.err_msg}>{errors.message}</p>
+                            }
+                        </div>
+                        <div>
+                            {
+                                isRegLoad ? <div style={{margin:"auto", width:"fit-content"}}><LoaderDotCut /></div> : <button className={logRegST.form_btn} type="submit">Sign Up</button>
+                            }
+                        </div>
+                    </form>
                 </div>
                 <div>
                     <p>Already Have an account ? <NavLink href={"/login"} legacyBehavior><a style={{textDecoration:"underline", color:"blue"}}>login here</a></NavLink> </p>

@@ -4,7 +4,8 @@ import dashST from "../../../styles/dashboard.module.css";
 import useAuth from '../../hooks/useAuth';
 
 const viewNavList = [
-    {name:"profile",path:""},
+    {name:"Home",path:"/"},
+    {name:"Profile",path:""},
 ]
 
 const ViewNavDashboard = () => {
@@ -12,7 +13,7 @@ const ViewNavDashboard = () => {
     return (
         <nav className={`${dashST.viewNav}`}>
             <div className={`${dashST.viewNav_brand}`}>Brand</div>
-            <div>
+            <div style={{display:"flex"}}>
                 {
                     viewNavList.map(navViewItem =><NavLink href={navViewItem.path} key={navViewItem.name} passHref={true} legacyBehavior>
                         <a className={`${dashST.navItem} ${dashST.navItem_hover}`} key={navViewItem.name} >

@@ -3,8 +3,9 @@ import cookie from "cookie";
 import {v4 as uuid4,v5 as uuid5} from 'uuid';
 import jwt from "jsonwebtoken";
 import { checkUserExistService, getUserByEmail } from "../service/authService";
-import { comparePasswordHash } from "../utils/passwordBcryptEncrype";
-import { envInfo } from "../utils/envInitializer";
+import { comparePasswordHash, generateUniqueId } from "../utils/passwordBcryptEncrype";
+import { envInfo, userID_limit } from "../utils/envInitializer";
+import UserModel from "../models_schemas/UserModel";
 
 const { check, validationResult } = require("express-validator");
 
@@ -94,21 +95,38 @@ export const checkExistUser = async(req,res,next) =>{
 }
 
 export const addUserId = async(req,res,next) =>{
-  const userId = uuid4();
-  await db.connect();
-  const isExist = await checkUserExistService({user_id:userId});
-  await db.disconnect();
-  if (isExist) {
-    return res.status(409).json({data:null,status:false,errors:{message:"Internal Server error! Retry Again!"}})
+  try {
+    await db.connect();
+    const existUserList = await UserModel.distinct('user_id');
+    console.log(existUserList);
+    const userId = generateUniqueId(existUserList,userID_limit.min,userID_limit.max);
+    console.log(userId,"Fin id");
+    if (userId === null) {
+      return res.status(409).json({data:null,status:false,errors:{message:"No new user's placement available at this moment!"}})
+    }
+    // check if id is exist
+    const isExist = await checkUserExistService({user_id:userId});
+    await db.disconnect();
+    if (isExist) {
+      return res.status(409).json({data:null,status:false,errors:{message:"Internal Server error! Retry Again!"}})
+    }
+    // got to next
+    req.body.user_id = userId;
+    next();
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({data:null,status:false,errors:{message:"Error occured in server. Please try again later."}})
   }
-  req.body.user_id = userId;
-  next();
+  
 }
 
 
 export const doUserLogin = async(req,res,next) =>{
+  
   try {
     const user = await getUserByEmail(req.body?.email);
+    
     if (user?.user_id) {
       // match the password
       const isValidPassword = await comparePasswordHash(req.body.password,user.password);

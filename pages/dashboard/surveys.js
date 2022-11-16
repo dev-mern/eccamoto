@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Script from 'next/script';
+import dashSt from "../../styles/dashboard.module.css";
 import PrivateRoute from '../../client/components/common/PrivateRoute';
 import LayoutDashboard from '../../client/components/dashboard/LayoutDashboard';
 import useAuth from '../../client/hooks/useAuth';
@@ -102,24 +103,40 @@ const Surveys = () => {
         <PrivateRoute>
             <LayoutDashboard>
                 <div>
-                    <h2>Surveys</h2>
-                    <div>
-                        <Script  
-                            type="text/javascript" 
-                            src="https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js"
+                    <h2>Do a Quick Survey</h2>
+                    <section className={dashSt.activity_ad_container}>
+                        <aside>
+                            <div>
+                                <Script  
+                                    type="text/javascript" 
+                                    src="https://cdn.cpx-research.com/assets/js/script_tag_v2.0.js"
+                                    
+                                ></Script>
+                            </div>
+                            <div style={{maxWidth: "950px", margin: "auto"}} id="fullscreen"></div>
                             
-                        ></Script>
-                    </div>
-                    <div style={{maxWidth: "950px", margin: "auto"}} id="fullscreen"></div>
-                    
-                    {/* <div style={{width: "100%", height: "150px"}} id="single"></div> */}
-                    {/* <div id="sidebar" style={{height: "469px"}}></div> */}
-                    {/* <div id="notification" style={{height: "469px"}}></div> */}
-                    {/* <div id="notification2" style={{height: "469px"}}></div> */}
+                            {/* <div style={{width: "100%", height: "150px"}} id="single"></div> */}
+                            {/* <div id="sidebar" style={{height: "469px"}}></div> */}
+                            {/* <div id="notification" style={{height: "469px"}}></div> */}
+                            {/* <div id="notification2" style={{height: "469px"}}></div> */}
 
-                    <div>
-                        {/* <iframe width="100%" frameBorder="0" height="500px" width='500px' style={{border:"2px solid"}}  src="https://offers.cpx-research.com/index.php?app_id=14946&ext_user_id={unique_user_id}&secure_hash={secure_hash}&username={user_name}&email={user_email}&subid_1=&subid_2"></iframe> */}
-                    </div>
+                            <div>
+                                {/* <iframe width="100%" frameBorder="0" height="500px" width='500px' style={{border:"2px solid"}}  src="https://offers.cpx-research.com/index.php?app_id=14946&ext_user_id={unique_user_id}&secure_hash={secure_hash}&username={user_name}&email={user_email}&subid_1=&subid_2"></iframe> */}
+                            </div>
+                        </aside>
+                        <aside>
+                            <div className={dashSt.ads_container}>
+                                <div className={dashSt.advertise}>
+                                    <h2>Advertise 1</h2>
+                                    <p> 336 x 280</p>
+                                </div>
+                                <div className={dashSt.advertise}>
+                                    <h2>Advertise 2</h2>
+                                    <p> 336 x 280</p>
+                                </div>
+                            </div>
+                        </aside>
+                    </section>
                 </div>
             </LayoutDashboard>
         </PrivateRoute>

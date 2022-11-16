@@ -1,21 +1,23 @@
 import React from 'react';
+import layoutST from "./layout.module.css";
 import HaderMeta from './HaderMeta';
 import NavBar from './NavBar';
+import Footer from './Footer';
 
 const Layout = ({children,pageMeta}) => {
     return (
-        <>
+        <div className={layoutST.layout_container}>
             <HaderMeta metaInfo={pageMeta}></HaderMeta>
-            <header>
+            <header className={layoutST.header}>
                 <NavBar></NavBar>
             </header>
-            <main>
+            <main className={layoutST.main_container}>
                 {children}
             </main>
-            <footer>
-                <h3>It is Footer</h3>
+            <footer className={layoutST.footer_container}>
+                <Footer></Footer>
             </footer>
-        </>
+        </div>
     );
 };
 
