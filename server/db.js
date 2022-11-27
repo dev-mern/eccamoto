@@ -22,7 +22,7 @@ async function connect() {
     
         // process.env.MONGODB_CONNECT_URI
         const db = await mongoose.connect(envInfo.MONGODB_CONNECT_URI,{
-            dbName: 'eccamoto',
+            dbName: 'todosurvey',
             useNewUrlParser: true,
             useUnifiedTopology: true,
             // useCreateIndex: true 

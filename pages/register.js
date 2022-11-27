@@ -53,7 +53,7 @@ const Register = () => {
             if (newUser.status) {
                 setUser(newUser.data);
                 setuserError("");
-                router.push("/");
+                router.push("/dashboard");
             }else{
                 console.log(newUser);
                 setErrors(newUser.errors)

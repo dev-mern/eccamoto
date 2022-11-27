@@ -17,7 +17,7 @@ const SideNavDashboard = ({user}) => {
             <NavLink href={""} passHref={true} legacyBehavior>
                 <a className={`${dashNavST.navItem} ${dashNavST.navItem_brand}`}>
                     <span>{getOverviewIcon(24,24)}</span>
-                    <h2 style={{margin:0}}>Eccamoto</h2>
+                    <h2 style={{margin:0}}>ToDoSurvey</h2>
                 </a>
             </NavLink>
             <hr style={{width:"90%",margin:"0 auto"}} />

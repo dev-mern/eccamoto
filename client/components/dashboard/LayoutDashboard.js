@@ -10,7 +10,7 @@ const dashMeta = {
 }
 
 const LayoutDashboard = ({children}) => {
-    const {user} = useAuth();
+    const {user,setUser} = useAuth();
     return (
         <div className={dashST.dash_container}>
             <HaderMeta metaInfo={dashMeta}></HaderMeta>
@@ -18,7 +18,7 @@ const LayoutDashboard = ({children}) => {
                 <SideNavDashboard user={user}></SideNavDashboard>
             </aside>
             <section className={dashST.dash_view_wrapper}>
-                <ViewNavDashboard user={user}></ViewNavDashboard>
+                <ViewNavDashboard user={user} setUser={setUser}></ViewNavDashboard>
                 <div className={dashST.dash_view_child_container}>
                     {children}
                 </div>

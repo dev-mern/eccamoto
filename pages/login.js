@@ -27,7 +27,7 @@ const Login = () => {
     // if already loggedin, return to home page
     useEffect(()=>{
         if (user.user_id) {
-            router.push("/");
+            router.push("/dashboard");
         }
     },[isUserLoading])
     const formSubmissionHandle = async(e) =>{
@@ -48,7 +48,7 @@ const Login = () => {
         if (user.status) {
             setUser(user.data);
             setuserError("");
-            router.push("/");
+            router.push("/dashboard");
         }else{
             if (user.message instanceof Object) {
                 setErrors(user.message);

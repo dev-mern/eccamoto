@@ -1,14 +1,22 @@
 import React from 'react';
 import NavLink from 'next/link';
 import dashST from "../../../styles/dashboard.module.css";
+import { logOutByClearCookie } from '../../fetcherServices/userServices';
 
 
-const ViewNavDashboard = ({user}) => {
-
+const ViewNavDashboard = ({user,setUser}) => {
+    
     const viewNavList = [
         {name:"Home",path:"/"},
         {name: user.name ?? "Profile",path:""},
     ]
+
+    const logOutHandler = async() =>{
+        const logoutRes = await logOutByClearCookie();
+        if (logoutRes.status) {
+            setUser({})
+        }
+    }
     
     return (
         <nav className={`${dashST.viewNav}`}>
@@ -22,6 +30,7 @@ const ViewNavDashboard = ({user}) => {
                         </a>
                     </NavLink>)
                 }
+                <span className={`${dashST.navItem} ${dashST.navItem_hover}`} onClick={logOutHandler}>Logout</span>
             </div>
         </nav>
     );
